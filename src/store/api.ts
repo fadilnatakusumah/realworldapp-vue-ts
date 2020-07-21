@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { UserSubmit, User, UserResponse, ArticlesResponse, Profile, ProfileResponse } from './models';
+import { UserSubmit, User, UserResponse, ArticlesResponse, Profile, ProfileResponse, UserUpdate } from './models';
 
 export const conduitApi = axios.create({
   baseURL: 'https://conduit.productionready.io/api',
@@ -36,5 +36,14 @@ export async function getProfile(username: string): Promise<Profile | undefined>
     return (data as ProfileResponse).profile
   } catch (error) {
     console.error("error", error)
+  }
+}
+
+export async function updateUser(user: UserUpdate) {
+  try {
+    const resp = await conduitApi.put('/user', user);
+    return resp.data as User
+  } catch (error) {
+    console.error("updateUser -> error", error)
   }
 }

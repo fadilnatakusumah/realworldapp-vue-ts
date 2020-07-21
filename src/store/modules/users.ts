@@ -7,8 +7,8 @@ import {
 } from 'vuex-module-decorators';
 
 import store from '@/store';
-import { Profile, User, UserSubmit } from '../models';
-import { signinUser, getProfile } from '../api';
+import { Profile, User, UserSubmit, UserUpdate } from '../models';
+import { signinUser, getProfile, updateUser, setJWT } from '../api';
 
 @Module({
   namespaced: true,
@@ -28,6 +28,9 @@ class UsersModule extends VuexModule {
   @Action({ commit: 'setUser' })
   async signinUser(userSubmit: UserSubmit) {
     const user = await signinUser(userSubmit);
+    if (user?.token) {
+      setJWT(user.token);
+    }
     return user;
   }
 
@@ -44,6 +47,13 @@ class UsersModule extends VuexModule {
 
   get username() {
     return (this.user && this.user.username) || null
+  }
+
+
+  @Mutation
+  async updateProfile(userUpdate: UserUpdate) {
+    const user = await updateUser(userUpdate);
+    return { user }
   }
 }
 

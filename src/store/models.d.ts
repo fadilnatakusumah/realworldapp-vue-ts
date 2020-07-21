@@ -11,6 +11,15 @@ export interface User {
   username: string;
   bio?: string;
   image?: string | null;
+  password?: string;
+}
+
+export interface UserUpdate {
+  email?: string;
+  username?: string;
+  bio?: string;
+  password?: string;
+  image?: string | null;
 }
 
 export interface UserSubmit {
